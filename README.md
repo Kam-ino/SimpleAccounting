@@ -1,2 +1,2 @@
 # SimpleAccounting
-Simple accounting mobile app
+React native based simple accounting mobile app
