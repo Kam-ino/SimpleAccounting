@@ -35,7 +35,7 @@ export default function SavingsGoalForm({ open, onOpenChange, onSuccess, goal }:
   useEffect(() => {
     if (open) {
       if (goal) {
-        // Edit mode - populate form with existing goal data
+        // Edit mode
         setFormData({
           name: goal.name,
           targetAmount: goal.targetAmount.toString(),
@@ -45,7 +45,6 @@ export default function SavingsGoalForm({ open, onOpenChange, onSuccess, goal }:
           status: goal.status
         })
       } else {
-        // Create mode - reset form
         setFormData({
           name: '',
           targetAmount: '',

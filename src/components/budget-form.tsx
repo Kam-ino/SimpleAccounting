@@ -30,7 +30,7 @@ interface BudgetFormProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onSuccess?: () => void
-  budget?: any // For editing existing budget
+  budget?: any
 }
 
 export default function BudgetForm({ open, onOpenChange, onSuccess, budget }: BudgetFormProps) {
@@ -51,7 +51,7 @@ export default function BudgetForm({ open, onOpenChange, onSuccess, budget }: Bu
     if (open) {
       fetchCategories()
       if (budget) {
-        // Edit mode - populate form with existing budget data
+        // Edit mode
         setFormData({
           name: budget.name,
           amount: budget.amount.toString(),
@@ -66,7 +66,7 @@ export default function BudgetForm({ open, onOpenChange, onSuccess, budget }: Bu
           }))
         )
       } else {
-        // Create mode - reset form
+        // Create mode
         setFormData({
           name: '',
           amount: '',
@@ -186,7 +186,6 @@ export default function BudgetForm({ open, onOpenChange, onSuccess, budget }: Bu
               value={formData.period}
               onValueChange={(value: 'WEEKLY' | 'MONTHLY' | 'QUARTERLY' | 'YEARLY') => {
                 setFormData(prev => ({ ...prev, period: value }))
-                // Update end date based on period
                 const startDate = formData.startDate
                 let endDate = new Date(startDate)
                 switch (value) {

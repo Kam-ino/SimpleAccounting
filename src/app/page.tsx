@@ -217,7 +217,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -247,7 +246,6 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container mx-auto p-4 md:p-6 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -258,7 +256,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -597,7 +594,6 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
 
-              {/* Expense Distribution Pie Chart */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -644,7 +640,6 @@ export default function Dashboard() {
               </Card>
             </div>
 
-            {/* Monthly Trend */}
             <Card>
               <CardHeader>
                 <CardTitle>Monthly Expense Trend</CardTitle>

@@ -42,7 +42,6 @@ export default function TransactionForm({ open, onOpenChange, onSuccess }: Trans
   useEffect(() => {
     if (open) {
       fetchCategories()
-      // Reset form
       setFormData({
         amount: '',
         description: '',
