@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SimpleAccounting</string>
+    <string name="title_activity_main">SimpleAccounting</string>
+    <string name="package_name">com.simpleaccounting.app</string>
+    <string name="custom_url_scheme">com.simpleaccounting.app</string>
+</resources>
