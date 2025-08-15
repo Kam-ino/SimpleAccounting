@@ -1,15 +1,17 @@
 "use client"
 
-import { useState, useEffect, ReactNode } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
-import { Plus, TrendingUp, TrendingDown, DollarSign, PiggyBank, Target, Edit, Trash2, BarChart3, PieChart } from 'lucide-react'
+import { Plus, TrendingUp, TrendingDown, DollarSign, PiggyBank, Target, Edit, Trash2, BarChart3, PieChart, Settings } from 'lucide-react'
 import TransactionForm from '@/components/transaction-form'
 import BudgetForm from '@/components/budget-form'
 import SavingsGoalForm from '@/components/savings-goal-form'
+import CurrencySelector from '@/components/currency-selector'
+import { useCurrency } from '@/lib/currency-context'
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, PieChart as RechartsPieChart, Cell, Pie, Legend } from 'recharts'
 
@@ -26,25 +28,36 @@ interface Transaction {
 }
 
 interface Budget {
-  categories: boolean
   id: string
   name: string
   amount: number
   spent: number
   period: string
+  categories?: Array<{
+    id: string
+    categoryId: string
+    amount: number
+    spent: number
+    category?: {
+      name: string
+      color?: string
+      icon?: string
+    }
+  }>
 }
 
 interface SavingsGoal {
-  description: ReactNode
-  targetDate: any
   id: string
   name: string
   targetAmount: number
   currentAmount: number
   status: string
+  targetDate?: string
+  description?: string
 }
 
 export default function Dashboard() {
+  const { formatCurrency } = useCurrency()
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [budgets, setBudgets] = useState<Budget[]>([])
   const [savingsGoals, setSavingsGoals] = useState<SavingsGoal[]>([])
@@ -162,13 +175,6 @@ export default function Dashboard() {
 
   const balance = totalIncome - totalExpenses
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(amount)
-  }
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
@@ -220,6 +226,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -232,6 +239,7 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
+              <CurrencySelector />
               <Button onClick={() => setShowTransactionForm(true)} className="hidden sm:flex">
                 <Plus className="mr-2 h-4 w-4" />
                 Add Transaction
@@ -249,6 +257,7 @@ export default function Dashboard() {
         </div>
       </header>
 
+      {/* Main Content */}
       <main className="container mx-auto p-4 md:p-6 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -259,6 +268,7 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Stats Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -442,16 +452,17 @@ export default function Dashboard() {
                             )}
                           </p>
                           
-                          {Array.isArray(budget.categories) ? (
-                              budget.categories.map((bc: any) => (
+                          {Array.isArray(budget.categories) && budget.categories.length > 0 && (
+                            <div className="mt-4 space-y-2">
+                              <p className="text-sm font-medium">Category Breakdown:</p>
+                              {budget.categories.map((bc: any) => (
                                 <div key={bc.id} className="flex justify-between text-xs text-muted-foreground">
                                   <span>{bc.category?.name || 'Unknown'}</span>
                                   <span>{formatCurrency(bc.spent)} / {formatCurrency(bc.amount)}</span>
                                 </div>
-                              ))
-                            ) : (
-                              <div>No categories available</div>
-                            )}
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </CardContent>
                     </Card>
@@ -596,6 +607,7 @@ export default function Dashboard() {
                 </CardContent>
               </Card>
 
+              {/* Expense Distribution Pie Chart */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -642,6 +654,7 @@ export default function Dashboard() {
               </Card>
             </div>
 
+            {/* Monthly Trend */}
             <Card>
               <CardHeader>
                 <CardTitle>Monthly Expense Trend</CardTitle>
