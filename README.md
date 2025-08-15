@@ -1,3 +1,3 @@
 # SimpleAccounting (Full Stack)
-React native based simple accounting mobile app
+React native/ TypeScript based simple accounting mobile app
 
